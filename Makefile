@@ -5,6 +5,7 @@
 # - use environment variables to overwrite this value (e.g export VERSION=0.0.2)
 VERSION ?= 0.0.1
 BINARY   = iac-generator
+SRC=$(shell find . -name "*.go")
 
 # Setting SHELL to bash allows bash commands to be executed by recipes.
 # This is a requirement for 'setup-envtest.sh' in the test target.
@@ -35,11 +36,23 @@ help: ## Display this help.
 build: ## build the iac-generator binary
 	go build -o $(BINARY) cmd/generator/main.go
 
+fmt: ## format codes
+	@test -z $(shell gofmt -l $(SRC)) || (gofmt -d $(SRC); exit 1)
+
+lint: ## lint codes
+	golangci-lint run -v
+
 run: ## run the code
 	go run cmd/generator/main.go
 
 clean: ## delete the binary file
 	rm $(BINARY)
 
-test: ## run the test
+test: install ## run the test
 	go test ./... -cover
+
+richtest: install ## run test with rich go tests
+	richgo test -v ./... -cover
+
+install: ## Install dependencies
+	go get -v ./... 
