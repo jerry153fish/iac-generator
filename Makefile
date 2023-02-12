@@ -33,7 +33,7 @@ help: ## Display this help.
 ##@ Development
 
 build: ## build the iac-generator binary
-	go build -mod vendor -o $(BINARY) cmd/generator/main.go
+	go build -o $(BINARY) cmd/generator/main.go
 
 run: ## run the code
 	go run cmd/generator/main.go
