@@ -34,7 +34,7 @@ help: ## Display this help.
 ##@ Development
 
 build: ## build the iac-generator binary
-	go build -o $(BINARY) cmd/generator/main.go
+	go build -o $(BINARY) .
 
 fmt: ## format codes
 	@test -z $(shell gofmt -l $(SRC)) || (gofmt -d $(SRC); exit 1)
@@ -43,7 +43,7 @@ lint: ## lint codes
 	golangci-lint run -v
 
 run: ## run the code
-	go run cmd/generator/main.go
+	go run main.go
 
 clean: ## delete the binary file
 	rm $(BINARY)
